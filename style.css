@@ -1,150 +1,45 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    color: #333;
-}
+/* 기존 style.css 내용 아래에 추가 */
 
-.quiz-container {
-    background-color: #ffffff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-}
-
-h1 {
-    color: #2c3e50;
-    margin-bottom: 30px;
-    font-size: 1.8em;
-}
-
-.question-section {
-    background-color: #ecf0f1;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-#question-number {
-    font-size: 1.1em;
-    color: #7f8c8d;
-    margin-bottom: 10px;
-}
-
-#question-text {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #34495e;
-    line-height: 1.4;
-}
-
-.options-section {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* 버튼 사이 간격 */
-    margin-bottom: 30px;
-}
-
-.option-button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.8em;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 120px; /* 버튼 너비 고정 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.option-button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-}
-
-.option-button:active {
-    background-color: #216a9a;
-    transform: translateY(0);
-}
-
-.feedback-section {
-    margin-top: 20px;
-}
-
-#result-message {
+.subtitle {
     font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.farewell-message {
+    font-size: 1.5em;
+    color: #2c3e50;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#final-score {
+    font-size: 1.8em;
+    color: #3498db;
     font-weight: bold;
     margin-bottom: 15px;
-    /* JavaScript에서 동적으로 색상 변경 */
 }
 
-#explanation-box {
-    background-color: #e8f6f3;
-    border: 1px solid #d4edda;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: left;
-    margin-top: 20px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-#explanation-box h2 {
-    color: #27ae60;
-    font-size: 1.3em;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-#explanation-text {
-    font-size: 1.1em;
-    color: #555;
-    line-height: 1.6;
-}
-
-.hidden {
-    display: none;
-}
-
-#next-button, #restart-button {
+/* 시작/다시 시작 버튼 공통 스타일 */
+#start-quiz-button, #restart-button {
     background-color: #2ecc71;
     color: white;
     border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
+    padding: 15px 30px;
+    font-size: 1.2em;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#next-button:hover, #restart-button:hover {
+#start-quiz-button:hover, #restart-button:hover {
     background-color: #27ae60;
+    transform: translateY(-2px);
 }
 
-#restart-button {
-    background-color: #e74c3c;
-    margin-left: 10px;
-}
-
-#restart-button:hover {
-    background-color: #c0392b;
-}
-
-/* 정답/오답 시 버튼 색상 변경 */
-.option-button.correct {
-    background-color: #27ae60; /* 녹색 */
-}
-
-.option-button.incorrect {
-    background-color: #e74c3c; /* 빨간색 */
+#start-quiz-button:active, #restart-button:active {
+    transform: translateY(0);
 }
