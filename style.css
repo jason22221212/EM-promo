@@ -25,12 +25,6 @@ h1 {
     font-size: 1.8em;
 }
 
-.subtitle { /* 이 클래스는 index.html에서 사용하지 않으므로 제거해도 됩니다. */
-    font-size: 1.2em;
-    color: #555;
-    margin-bottom: 30px;
-}
-
 .question-section {
     background-color: #ecf0f1;
     padding: 20px;
@@ -116,36 +110,10 @@ h1 {
     line-height: 1.6;
 }
 
-/* !!! 이 부분이 가장 중요합니다. !!! */
+/* !!! 이 부분이 가장 중요합니다: hidden 클래스를 가진 요소는 보이지 않게 합니다. !!! */
 .hidden {
-    display: none;
+    display: none !important; 
 }
-
-#next-button, #restart-button {
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-
-#next-button:hover, #restart-button:hover {
-    background-color: #27ae60;
-}
-
-/* restart-button은 이제 end-screen에만 있습니다. */
-/* #restart-button {
-    background-color: #e74c3c;
-    margin-left: 10px;
-} */ /* quiz-screen의 restart-button 관련 CSS는 필요 없으므로 제거해도 됩니다. */
-
-/* restart-button은 시작/다시 시작 버튼 공통 스타일을 따르도록 했습니다. */
-
 
 /* 정답/오답 시 버튼 색상 변경 */
 .option-button.correct {
@@ -173,7 +141,7 @@ h1 {
 }
 
 /* 시작/다시 시작 버튼 공통 스타일 */
-#start-quiz-button, #restart-button {
+#start-quiz-button, #restart-button, #next-button {
     background-color: #2ecc71;
     color: white;
     border: none;
@@ -186,11 +154,11 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#start-quiz-button:hover, #restart-button:hover {
+#start-quiz-button:hover, #restart-button:hover, #next-button:hover {
     background-color: #27ae60;
     transform: translateY(-2px);
 }
 
-#start-quiz-button:active, #restart-button:active {
+#start-quiz-button:active, #restart-button:active, #next-button:active {
     transform: translateY(0);
 }
