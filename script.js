@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentQuestionIndex = 0;
     let correctAnswersCount = 0; // 맞힌 문제 수를 저장할 변수
 
-    // 퀴즈 데이터 (질문, 정답, 해설) - 이전 코드와 동일
+    // 퀴즈 데이터 (질문, 정답, 해설)
     const quizData = [
         {
             question: "전자감독장치를 훼손하고 도주하면 최대 10년의 징역에 처해질 수 있다. (O/X)",
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    // 스크린 전환 함수
+    // 스크린 전환 함수: 이 함수가 각 화면을 보여주고 숨기는 역할을 합니다.
     function showScreen(screenElement) {
         startScreen.classList.add('hidden');
         quizScreen.classList.add('hidden');
@@ -81,42 +81,44 @@ document.addEventListener('DOMContentLoaded', () => {
         screenElement.classList.remove('hidden');
     }
 
+    // 퀴즈 질문 로드 및 퀴즈 완료 처리
     function loadQuestion() {
         if (currentQuestionIndex < quizData.length) {
             const question = quizData[currentQuestionIndex];
             questionNumberElement.textContent = `문제 ${currentQuestionIndex + 1}`;
             questionTextElement.textContent = question.question;
 
-            // 이전 결과 및 해설 숨기기
+            // 이전 문제의 결과 및 해설 숨기기
             resultMessageElement.textContent = '';
             explanationBox.classList.add('hidden');
-            nextButton.classList.add('hidden');
+            nextButton.classList.add('hidden'); // 다음 문제 버튼 숨기기
 
-            // 버튼 활성화 및 초기화
+            // O/X 버튼 다시 활성화 및 스타일 초기화
             optionOButton.disabled = false;
             optionXButton.disabled = false;
             optionOButton.classList.remove('correct', 'incorrect');
             optionXButton.classList.remove('correct', 'incorrect');
-
+            nextButton.textContent = '다음 문제'; // 버튼 텍스트를 '다음 문제'로 초기화
         } else {
-            // 모든 퀴즈 완료 -> 결과 화면 표시
-            showScreen(endScreen); // endScreen으로 바로 전환
+            // 모든 퀴즈가 끝나면 결과 화면으로 전환
+            showScreen(endScreen);
             finalScoreElement.textContent = `총 ${quizData.length}문제 중 ${correctAnswersCount}문제를 맞추셨습니다!`;
         }
     }
 
+    // O/X 답변 확인 및 해설 표시
     function checkAnswer(selectedAnswer) {
         const question = quizData[currentQuestionIndex];
         const correctAnswer = question.answer;
 
-        // 버튼 비활성화
+        // O/X 버튼 비활성화 (답변 후 다시 선택 못하게)
         optionOButton.disabled = true;
         optionXButton.disabled = true;
 
         if (selectedAnswer === correctAnswer) {
             resultMessageElement.textContent = '정답입니다!';
             resultMessageElement.style.color = '#27ae60'; // 녹색
-            correctAnswersCount++; // 정답 카운트 증가
+            correctAnswersCount++; // 정답 개수 증가
             if (selectedAnswer === 'O') {
                 optionOButton.classList.add('correct');
             } else {
@@ -127,49 +129,55 @@ document.addEventListener('DOMContentLoaded', () => {
             resultMessageElement.style.color = '#e74c3c'; // 빨간색
             if (selectedAnswer === 'O') {
                 optionOButton.classList.add('incorrect');
-                optionXButton.classList.add('correct'); // 정답인 버튼 표시
+                optionXButton.classList.add('correct'); // 정답인 버튼을 표시
             } else {
                 optionXButton.classList.add('incorrect');
-                optionOButton.classList.add('correct'); // 정답인 버튼 표시
+                optionOButton.classList.add('correct'); // 정답인 버튼을 표시
             }
         }
 
-        // 해설 표시
+        // 해당 문제의 해설 표시
         explanationTextElement.textContent = question.explanation;
-        explanationBox.classList.remove('hidden');
+        explanationBox.classList.remove('hidden'); // 해설 상자 보이게 하기
 
-        // 마지막 문제가 아니면 '다음 문제' 버튼 표시
+        // 마지막 문제가 아니라면 '다음 문제' 버튼 표시
         if (currentQuestionIndex < quizData.length - 1) {
             nextButton.classList.remove('hidden');
         } else {
-            // 마지막 문제일 경우 '다음 문제' 버튼을 표시하고, 이 버튼을 누르면 퀴즈 완료 화면으로 넘어갑니다.
-            // (loadQuestion()이 다음 질문이 없으면 endScreen을 호출합니다.)
-            nextButton.classList.remove('hidden'); // 마지막 문제에서도 '다음 문제' 버튼을 보이게 함
-            nextButton.textContent = '결과 보기'; // 버튼 텍스트를 '결과 보기'로 변경
+            // 마지막 문제일 경우 '다음 문제' 버튼 텍스트를 '결과 보기'로 변경
+            nextButton.textContent = '결과 보기';
+            nextButton.classList.remove('hidden'); // '결과 보기' 버튼 보이게 하기
         }
     }
 
-    // 이벤트 리스너
+    // --- 이벤트 리스너 설정 ---
+
+    // 1. 페이지가 로드되면 시작 화면을 보여줍니다.
+    showScreen(startScreen);
+
+    // 2. '퀴즈 시작' 버튼 클릭 시
     startQuizButton.addEventListener('click', () => {
-        currentQuestionIndex = 0; // 퀴즈 시작 시 인덱스 초기화
-        correctAnswersCount = 0; // 퀴즈 시작 시 점수 초기화
-        nextButton.textContent = '다음 문제'; // 퀴즈 시작 시 '다음 문제'로 텍스트 초기화
-        showScreen(quizScreen); // 퀴즈 화면 표시
+        currentQuestionIndex = 0; // 현재 문제 인덱스 초기화
+        correctAnswersCount = 0; // 맞힌 문제 수 초기화
+        nextButton.textContent = '다음 문제'; // '다음 문제' 버튼 텍스트 초기화
+        showScreen(quizScreen); // 퀴즈 화면으로 전환
         loadQuestion(); // 첫 번째 질문 로드
     });
 
+    // 3. 'O' 버튼 클릭 시
     optionOButton.addEventListener('click', () => checkAnswer('O'));
+
+    // 4. 'X' 버튼 클릭 시
     optionXButton.addEventListener('click', () => checkAnswer('X'));
 
+    // 5. '다음 문제' 또는 '결과 보기' 버튼 클릭 시
     nextButton.addEventListener('click', () => {
-        currentQuestionIndex++;
+        currentQuestionIndex++; // 다음 문제로 이동
         loadQuestion(); // 다음 질문 로드 또는 퀴즈 완료 처리
     });
 
+    // 6. '다시 시작' 버튼 클릭 시 (결과 화면에서)
     restartButton.addEventListener('click', () => {
-        showScreen(startScreen); // 다시 시작 버튼 클릭 시 시작 화면으로
+        showScreen(startScreen); // 다시 시작 화면으로 전환
     });
-
-    // 페이지 로드 시 초기 화면 표시
-    showScreen(startScreen);
 });
