@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="quiz-container">
+    <div class="quiz-container" id="start-screen">
+        <h1>전자감독 인식 개선 프로젝트</h1>
+        <p class="subtitle">전자감독제도에 대한 OX 퀴즈를 풀어보세요!</p>
+        <button id="start-quiz-button">퀴즈 시작</button>
+    </div>
+
+    <div class="quiz-container hidden" id="quiz-screen">
         <h1>전자감독제도 인식 개선 OX 퀴즈</h1>
         <div class="question-section">
             <p id="question-number">문제 1</p>
@@ -25,7 +31,13 @@
             </div>
         </div>
         <button id="next-button" class="hidden">다음 문제</button>
-        <button id="restart-button" class="hidden">다시 시작</button>
+    </div>
+
+    <div class="quiz-container hidden" id="end-screen">
+        <h1>퀴즈 완료!</h1>
+        <p id="final-score"></p>
+        <p class="farewell-message">수고하셨습니다!</p>
+        <button id="restart-button">다시 시작</button>
     </div>
 
     <script src="script.js"></script>
