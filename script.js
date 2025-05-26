@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // DOM 요소 가져오기
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const endScreen = document.getElementById('end-screen');
+
+    const startQuizButton = document.getElementById('start-quiz-button');
     const questionNumberElement = document.getElementById('question-number');
     const questionTextElement = document.getElementById('question-text');
     const optionOButton = document.getElementById('option-o');
@@ -7,11 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const explanationBox = document.getElementById('explanation-box');
     const explanationTextElement = document.getElementById('explanation-text');
     const nextButton = document.getElementById('next-button');
+    const finalScoreElement = document.getElementById('final-score');
     const restartButton = document.getElementById('restart-button');
 
     let currentQuestionIndex = 0;
+    let correctAnswersCount = 0; // 맞힌 문제 수를 저장할 변수
 
-    // 퀴즈 데이터 (질문, 정답, 해설)
+    // 퀴즈 데이터 (질문, 정답, 해설) - 이전 코드와 동일
     const quizData = [
         {
             question: "전자감독장치를 훼손하고 도주하면 최대 10년의 징역에 처해질 수 있다. (O/X)",
@@ -65,6 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
+    // 스크린 전환 함수
+    function showScreen(screenId) {
+        startScreen.classList.add('hidden');
+        quizScreen.classList.add('hidden');
+        endScreen.classList.add('hidden');
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
     function loadQuestion() {
         if (currentQuestionIndex < quizData.length) {
             const question = quizData[currentQuestionIndex];
@@ -75,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
             resultMessageElement.textContent = '';
             explanationBox.classList.add('hidden');
             nextButton.classList.add('hidden');
-            restartButton.classList.add('hidden');
 
             // 버튼 활성화 및 초기화
             optionOButton.disabled = false;
@@ -84,15 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
             optionXButton.classList.remove('correct', 'incorrect');
 
         } else {
-            // 모든 퀴즈 완료
-            questionNumberElement.textContent = '';
-            questionTextElement.textContent = '모든 퀴즈를 완료했습니다! 전자감독제도에 대한 이해에 감사드립니다.';
-            optionOButton.classList.add('hidden');
-            optionXButton.classList.add('hidden');
-            resultMessageElement.textContent = '';
-            explanationBox.classList.add('hidden');
-            nextButton.classList.add('hidden');
-            restartButton.classList.remove('hidden'); // 다시 시작 버튼 표시
+            // 모든 퀴즈 완료 -> 결과 화면 표시
+            showScreen('end-screen');
+            finalScoreElement.textContent = `총 10문제 중 ${correctAnswersCount}문제를 맞추셨습니다!`;
         }
     }
 
@@ -107,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedAnswer === correctAnswer) {
             resultMessageElement.textContent = '정답입니다!';
             resultMessageElement.style.color = '#27ae60'; // 녹색
+            correctAnswersCount++; // 정답 카운트 증가
             if (selectedAnswer === 'O') {
                 optionOButton.classList.add('correct');
             } else {
@@ -129,27 +139,32 @@ document.addEventListener('DOMContentLoaded', () => {
         explanationBox.classList.remove('hidden');
 
         // 다음 문제 버튼 표시 (마지막 문제가 아니면)
+        // 마지막 문제의 경우, nextButton 대신 EndScreen으로 전환되므로 이 버튼을 숨깁니다.
         if (currentQuestionIndex < quizData.length - 1) {
             nextButton.classList.remove('hidden');
-        } else {
-            restartButton.classList.remove('hidden'); // 마지막 문제면 다시 시작 버튼 표시
         }
     }
 
     // 이벤트 리스너
+    startQuizButton.addEventListener('click', () => {
+        currentQuestionIndex = 0; // 퀴즈 시작 시 인덱스 초기화
+        correctAnswersCount = 0; // 퀴즈 시작 시 점수 초기화
+        showScreen('quiz-screen'); // 퀴즈 화면 표시
+        loadQuestion(); // 첫 번째 질문 로드
+    });
+
     optionOButton.addEventListener('click', () => checkAnswer('O'));
     optionXButton.addEventListener('click', () => checkAnswer('X'));
+
     nextButton.addEventListener('click', () => {
         currentQuestionIndex++;
         loadQuestion();
     });
+
     restartButton.addEventListener('click', () => {
-        currentQuestionIndex = 0;
-        optionOButton.classList.remove('hidden');
-        optionXButton.classList.remove('hidden');
-        loadQuestion();
+        showScreen('start-screen'); // 다시 시작 버튼 클릭 시 시작 화면으로
     });
 
-    // 퀴즈 시작
-    loadQuestion();
+    // 페이지 로드 시 초기 화면 표시
+    showScreen('start-screen');
 });
